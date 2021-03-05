@@ -46,11 +46,11 @@ const action = async () => {
 
     const SEPERATOR = '\n──────────────────────────────────────────────────────────────────────────────────────────\n';
 
-    core.info(createCheckRequest.output.title);
+    core.warning(createCheckRequest.output.title);
 
     if (createCheckRequest.conclusion == 'failure') {
         createCheckRequest.output.annotations.forEach(element => {
-            core.info(element.title + SEPERATOR + element.message + SEPERATOR + element.raw_details);
+            core.error(element.title + SEPERATOR + element.message + SEPERATOR + element.raw_details);
         });
     }
 
