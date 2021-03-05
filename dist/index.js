@@ -11468,6 +11468,7 @@ const github = __webpack_require__(469);
 const { parseTestReports } = __webpack_require__(278);
 
 const action = async () => {
+
     const reportPaths = core.getInput('report_paths').split(',').join('\n');
     core.info(`Going to parse results form ${reportPaths}`);
     const githubToken = core.getInput('github_token');
@@ -11508,10 +11509,20 @@ const action = async () => {
         }
     };
 
-    core.info(JSON.stringify(createCheckRequest, null, 2));
+    const SEPERATOR = '\n──────────────────────────────────────────────────────────────────────────────────────────\n';
 
-    // make conclusion consumable by downstream actions
-    core.setOutput('conclusion', conclusion);
+    core.info(createCheckRequest.output.title);
+
+    if (createCheckRequest.conclusion == 'failure') {
+        createCheckRequest.output.annotations.forEach(element => {
+            core.info(element.title + SEPERATOR + element.message + SEPERATOR + element.raw_details);
+        });
+    }
+
+    // core.info(JSON.stringify(createCheckRequest, null, 2));
+
+    // // make conclusion consumable by downstream actions
+    // core.setOutput('conclusion', conclusion);
 
     // const octokit = new github.GitHub(githubToken);
     // await octokit.checks.create(createCheckRequest);
