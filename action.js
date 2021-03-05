@@ -43,18 +43,18 @@ const action = async () => {
         }
     };
 
-    core.debug(JSON.stringify(createCheckRequest, null, 2));
+    core.info(JSON.stringify(createCheckRequest, null, 2));
 
     // make conclusion consumable by downstream actions
     core.setOutput('conclusion', conclusion);
 
-    const octokit = new github.GitHub(githubToken);
-    await octokit.checks.create(createCheckRequest);
+    // const octokit = new github.GitHub(githubToken);
+    // await octokit.checks.create(createCheckRequest);
 
-    // optionally fail the action if tests fail
-    if (failOnFailedTests && conclusion !== 'success') {
-        core.setFailed(`There were ${annotations.length} failed tests`);
-    }
+    // // optionally fail the action if tests fail
+    // if (failOnFailedTests && conclusion !== 'success') {
+    //     core.setFailed(`There were ${annotations.length} failed tests`);
+    // }
 };
 
 module.exports = action;
